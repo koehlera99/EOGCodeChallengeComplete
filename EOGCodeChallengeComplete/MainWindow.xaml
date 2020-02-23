@@ -1,0 +1,70 @@
+﻿<Window x:Class="EOGCodeChallengeComplete.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EOGCodeChallengeComplete"
+        xmlns:ViewModels="clr-namespace:EOGCodeChallengeComplete.ViewModels"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="327" Width="524" Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="gameModelViewSource" d:DesignSource="{d:DesignInstance {x:Type ViewModels:GameModel}, CreateList=True}"/>
+    </Window.Resources>
+    <Grid x:Name="grid1" DataContext="{StaticResource gameModelViewSource}">
+        <Grid.Effect>
+            <DropShadowEffect/>
+        </Grid.Effect>
+        <Border Name="mask" CornerRadius="5">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="White" Offset="0"/>
+                    <GradientStop Color="#FFB2AEAE" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+        <Button Content="Execute Simulation" HorizontalAlignment="Left" Margin="370,82,0,0" VerticalAlignment="Top" Width="120" Height="40" Click="Button_Click"/>
+        <GroupBox Header="Game Setup" BorderBrush="#FF0E0C0C" Margin="10,10,0,0" Height="112" VerticalAlignment="Top" HorizontalAlignment="Left" Width="344">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="Number Of Games To Simulate:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+                <TextBox x:Name="numberOfGamesToSimulateTextBox" PreviewTextInput="NumberValidationTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" Text="{Binding NumberOfGamesToSimulate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                <Label Content="Number Of Players:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+                <TextBox x:Name="numberOfPlayersTextBox" PreviewTextInput="NumberValidationTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding NumberOfPlayers, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Results" BorderBrush="#FF0E0C0C" Margin="10,135,0,0" Height="144" VerticalAlignment="Top" HorizontalAlignment="Left" Width="480">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Content="Average Length Game:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+                <TextBox x:Name="averageLengthGameTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="0" Text="{Binding AverageLengthGame, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                <Label Content="Longest Length Game:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+                <TextBox x:Name="longestLengthGameTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding LongestLengthGame, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                <Label Content="Shortest Length Game:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+                <TextBox x:Name="shortestLengthGameTextBox" IsReadOnly="True" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="2" Text="{Binding ShortestLengthGame, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            </Grid>
+        </GroupBox>
+        <ComboBox HorizontalAlignment="Left" Margin="370,25,0,0" VerticalAlignment="Top" Width="120"
+                  Name="cmbPresets"
+                  ItemsSource="{Binding PresetGames}"
+                  DisplayMemberPath="PresetName"
+                  SelectedValuePath="NumberOfGamesToSimulate" 
+                  SelectionChanged="ComboBox_SelectionChanged" />
+    </Grid>
+</Window>
